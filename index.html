@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <script type="text/javascript" src="https://checkout.razorpay.com/v1/razorpay.js"></script>
+    </head>
+    <body>
+        <div>
+            <button id="fire">Pay</button>
+        </div>
+    </body>
+    <script>
+        var razorpay = new Razorpay({  key: 'rzp_live_b5bgP0Nk327lDg' });
+
+        var paymentData = {
+            amount: '100', //pass in paise (amount: 100000 equals ₹1000)
+            method: 'upi',
+            contact: '9123456789',  // customer's mobile number
+            email: 'gaurav.kumar@example.com',  //customers email address
+        };
+
+        document.getElementById('fire').onclick = function(e){
+
+            razorpay.isTezAvailable(is_available, is_not_available);
+
+            //if Gpay found then, proceed with intent
+            function is_available(){ alert('Gpay avaialable'); razorpay.createPayment(paymentData, { tez: true }); }
+
+            //If Gpay not found then, fallbck to collect flow
+            function is_not_available(){
+                paymentData.vpa = 'jpeevi@okhdfcbank';
+                razorpay.createPayment(paymentData);
+            }
+
+            razorpay.on('payment.success', function(resp) { alert(resp.razorpay_payment_id); });
+        
+            razorpay.on('payment.error', function(resp){ alert(resp.error.description)} );
+            
+            e.preventDefault();
+        }
+   
+    </script>
+</html>
