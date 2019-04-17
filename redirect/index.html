@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>GPay Redirect Example</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="https://checkout.razorpay.com/v1/razorpay.js"></script>
+
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h3 id="checking">Checking for Google Pay</h3>
+  <div id="available" class="hidden"><a href="pay.html">Make payment</a></div>
+  <h3 id="unavailable" class="hidden">Google Pay is not available on the device.</h3>
+  <script>
+    var razorpay = new Razorpay({ key: 'rzp_live_b5bgP0Nk327lDg' });
+
+    var checking = document.querySelector('#checking');
+    var available = document.querySelector('#available');
+    var unavailable = document.querySelector('#unavailable');
+
+    function googlePayPresent () {
+      checking.classList.add('hidden');
+      available.classList.remove('hidden');
+    }
+
+    function googlePayAbsent () {
+      checking.classList.add('hidden');
+      unavailable.classList.remove('hidden');
+    }
+
+    razorpay.isTezAvailable(googlePayPresent, googlePayAbsent);
+  </script>
+</body>
+</html>
